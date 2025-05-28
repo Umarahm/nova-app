@@ -3,6 +3,8 @@
 
 <head>
     <!-- google tag (gtag.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.4/lottie.min.js"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HGL07M90WG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -13,23 +15,15 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova</title>
-    <meta content="Nova" property="og:title" />
+    <title>SkyyPlay</title>
+    <meta content="SkyyPlay" property="og:title" />
     <meta name="keywords"
-        content="free movies, free streaming, watch movies online, free tv shows, streaming service, watch movies free, online streaming, novastream, free movies online, free series online">
+        content="free movies, free streaming, watch movies online, free tv shows, streaming service, watch movies free, online streaming, SkyyPlay, free movies online, free series online">
     <meta
-        content="Click, watch, enjoy. Nova breaks down the paywall, ensuring that quality content is accessible to everyone."
+        content="Click, watch, enjoy. SkyyPlay breaks down the paywall, ensuring that quality content is accessible to everyone."
         property="og:description" />
-    <meta content="https://novastream.top" property="og:url" />
-    <meta content="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png" property="og:image" />
-    <meta content="#A17FC0" data-react-helmet="true" name="theme-color" />
-    <meta property="twitter:card" content="summary">
-    <meta property="twitter:url" content="https://novastream.top">
-    <meta property="twitter:title" content="Nova - Watch Movies & TV Shows">
-    <meta property="twitter:description"
-        content="Click, watch, enjoy. Nova breaks down the paywall, ensuring that quality content is accessible to everyone.">
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
-    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ambr0sial/nova/main/logo.png">
+
+    <link rel="icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
@@ -408,7 +402,7 @@
 
         /* Category section styles */
         .category-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
         .category-title {
@@ -511,6 +505,11 @@
 
 <body class="bg-gray-900 text-white min-h-screen" x-data="app()" @keydown.meta.k.prevent="$refs.searchInput.focus()"
     @keydown.ctrl.k.prevent="$refs.searchInput.focus()">
+    <!-- Loading Animation Container -->
+    <div id="lottie-loader" class="fixed inset-0 z-50 bg-gray-900 flex items-center justify-center">
+        <div id="lottie-animation" style="width: 200px; height: 200px;"></div>
+    </div>
+
     <div x-show="localStorage.getItem('showParticles') !== 'false'" id="particles-js"
         class="fixed inset-0 pointer-events-none z-0"></div>
 
@@ -520,13 +519,13 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 md:space-x-8">
                     <div class="flex items-center space-x-3">
-                        <img src="logo.png" alt="Nova Logo" class="h-8 w-8 md:h-10 md:w-10">
+                        <img src="logo.png" alt=" Logo" class="h-8 w-8 md:h-10 md:w-10">
                         <span
-                            class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">SkyyPlay</span>
+                            class="hidden sm:inline text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">SkyyPlay</span>
                     </div>
                     <!-- mobile search bar -->
                     <div class="md:hidden relative">
-                        <input type="text" x-model="searchQuery" @keyup.debounce.300ms="searchContent()"
+                        <input type="text" x-model="searchQuery" @keyup.enter="redirectToSearch()"
                             placeholder="Search..."
                             class="w-32 bg-gray-800 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400">
                     </div>
@@ -535,6 +534,7 @@
                             <span x-text="currentTab === 'movies' ? 'Switch to TV Shows' : 'Switch to Movies'"></span>
                         </button>
                         <a href="livesports.html" class="nav-link">Live Sports</a>
+                        <a href="search.html" class="nav-link">Search</a>
                         <button @click="showWatchLater = true" class="nav-link flex items-center space-x-2">
                             <span>Watch Later</span>
                             <span x-show="watchLaterCount > 0"
@@ -547,7 +547,8 @@
                     <div class="relative">
                         <div class="search-container hidden md:block">
                             <input type="text" x-ref="searchInput" x-model="searchQuery"
-                                @keyup.debounce.300ms="searchContent()" placeholder="Search..."
+                                @keyup.debounce.300ms="redirectToSearch()" @keyup.enter="redirectToSearch()"
+                                placeholder="Search..."
                                 class="search-input bg-gray-800 rounded-full px-6 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 w-64">
                             <div
                                 class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center space-x-1 text-gray-400 pointer-events-none select-none">
@@ -591,6 +592,7 @@
                     </button>
                     <a href="livesports.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Live
                         Sports</a>
+                    <a href="search.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Search</a>
                     <button @click="showWatchLater = true; mobileMenu = false"
                         class="flex items-center justify-between px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">
                         <span>Watch Later</span>
@@ -609,22 +611,14 @@
                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                     </a>
-                    <a href="https://github.com/ambr0sial/nova" target="_blank"
-                        class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">GitHub</a>
-                    <a href="https://ko-fi.com/ambrosial" target="_blank"
-                        class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Ko-Fi</a>
-                    <a href="https://discord.gg/s9kUZw7CqP" target="_blank"
-                        class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Discord</a>
                 </div>
             </div>
         </div>
     </nav>
 
-
     <!-- Add this carousel section right after the navigation section -->
     <div class="pt-24 pb-4" id="featuredCarousel">
         <div class="container mx-auto">
-
             <div class="relative">
                 <!-- Carousel container -->
                 <div class="overflow-hidden rounded-xl">
@@ -657,7 +651,6 @@
         </div>
     </div>
 
-
     <!-- continue watching section -->
     <div class="pt-24 pb-4 px-6" id="continueWatchingSection" style="display: none;">
         <div class="container mx-auto">
@@ -675,12 +668,12 @@
     </div>
 
     <!-- Top 10 Today Section -->
-    <div class="py-8 px-6" id="top10Section">
+    <div class="py-8 px-0 sm:px-6" id="top10Section">
         <div class="container mx-auto">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800"
+                <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800 "
                     id="top10Title">
-                    Top 10 Today
+                    Top 10 in English Today
                 </h2>
                 <a href="#" class="text-gray-400 hover:text-purple-400 transition-colors flex items-center">
                     View All
@@ -717,245 +710,8 @@
     </div>
 
     <!-- Category Sections (will be dynamically generated) -->
-    <div id="categorySections" class="px-6 py-4">
+    <div id="categorySections" class="px-0 sm:px-6 py-4 overflow-hidden">
         <!-- Category sections will be inserted here -->
-    </div>
-
-    <!-- hero section -->
-    <div class="pt-8 pb-12 px-6">
-        <div class="container mx-auto">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-                <h2 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800"
-                    x-text="currentTab === 'movies' ? 'Popular Movies' : 'Popular TV Shows'"></h2>
-            </div>
-
-            <!-- filters -->
-            <div class="mb-8 space-y-4">
-                <div class="flex flex-wrap gap-4 items-center justify-center">
-                    <!-- genre filter -->
-                    <div class="relative">
-                        <select x-model="selectedGenre" @change="applyFilters()"
-                            class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            <option value="">All Genres</option>
-                            <template x-for="genre in genres" :key="genre.id">
-                                <option :value="genre.id" x-text="genre.name"></option>
-                            </template>
-                        </select>
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- rating range -->
-                    <div class="relative">
-                        <select x-model="minRating" @change="applyFilters()"
-                            class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            <option value="">Any Rating</option>
-                            <option value="8">8+ ⭐</option>
-                            <option value="7">7+ ⭐</option>
-                            <option value="6">6+ ⭐</option>
-                            <option value="5">5+ ⭐</option>
-                        </select>
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- year range -->
-                    <div class="relative">
-                        <select x-model="yearRange" @change="applyFilters()"
-                            class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            <option value="">Any Year</option>
-                            <option value="2020,2024">2020s</option>
-                            <option value="2010,2019">2010s</option>
-                            <option value="2000,2009">2000s</option>
-                            <option value="1990,1999">1990s</option>
-                            <option value="1980,1989">1980s</option>
-                            <option value="1970,1979">1970s</option>
-                            <option value="1960,1969">1960s</option>
-                            <option value="1950,1959">1950s</option>
-                        </select>
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- language filter -->
-                    <div class="relative">
-                        <select x-model="selectedLanguage" @change="applyFilters()"
-                            class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            <option value="">All Languages</option>
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="es">Spanish</option>
-                            <option value="de">German</option>
-                            <option value="it">Italian</option>
-                            <option value="ja">Japanese</option>
-                            <option value="ko">Korean</option>
-                            <option value="ur">Urdu</option>
-                            <option value="hi">Hindi</option>
-                        </select>
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- sort order -->
-                    <div class="relative">
-                        <select x-model="sortBy" @change="applyFilters()"
-                            class="bg-gray-800 text-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-gray-700 transition-colors duration-300 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-                            <option value="popularity.desc">Most Popular</option>
-                            <option value="revenue.desc">Highest Revenue</option>
-                            <option value="vote_count.desc">Most Reviewed</option>
-                        </select>
-                        <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- active filters display -->
-                    <div class="flex flex-wrap gap-2">
-                        <template x-if="selectedGenre">
-                            <span
-                                class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                                <span x-text="getGenreName(selectedGenre)"></span>
-                                <button @click="selectedGenre = ''; applyFilters()"
-                                    class="hover:text-gray-300">×</button>
-                            </span>
-                        </template>
-                        <template x-if="minRating">
-                            <span
-                                class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                                <span x-text="minRating + '+ ⭐'"></span>
-                                <button @click="minRating = ''; applyFilters()" class="hover:text-gray-300">×</button>
-                            </span>
-                        </template>
-                        <template x-if="yearRange">
-                            <span
-                                class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                                <span x-text="getYearRangeName(yearRange)"></span>
-                                <button @click="yearRange = ''; applyFilters()" class="hover:text-gray-300">×</button>
-                            </span>
-                        </template>
-                        <template x-if="selectedLanguage">
-                            <span
-                                class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
-                                <span x-text="getLanguageName(selectedLanguage)"></span>
-                                <button @click="selectedLanguage = ''; applyFilters()"
-                                    class="hover:text-gray-300">×</button>
-                            </span>
-                        </template>
-                        <template x-if="hasActiveFilters">
-                            <button @click="clearAllFilters()"
-                                class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2 transition-colors duration-300">
-                                <span>Clear All Filters</span>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-                <button @click="pickRandom()"
-                    class="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-4 py-2 rounded-lg hover:brightness-110 transition-all duration-300 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
-                    <span>Random Pick</span>
-                </button>
-            </div>
-
-            <!-- content grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <template x-for="item in filteredContent" :key="item.id">
-                    <div class="relative card-hover" @contextmenu.prevent="
-                        $store.contextMenu = {
-                            show: true,
-                            x: $event.clientX,
-                            y: $event.clientY,
-                            item: item
-                        }">
-                        <a :href="'watch.html?id=' + item.id + '&type=' + (currentTab === 'movies' ? 'movie' : 'tv')"
-                            class="block rounded-lg overflow-hidden bg-gray-800 aspect-[2/3]">
-                            <div class="relative h-full">
-                                <img :src="'https://image.tmdb.org/t/p/w500' + item.poster_path"
-                                    :alt="item.title || item.name" class="w-full h-full object-cover" @error="event => {
-                                            event.target.src = '/logo.png';
-                                            event.target.classList.remove('object-cover');
-                                            event.target.classList.add('object-contain');
-                                        }" />
-                                <div class="card-overlay absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4">
-                                    <h3 class="text-sm md:text-lg font-semibold" x-text="item.title || item.name"></h3>
-                                    <p class="text-gray-400 text-xs md:text-sm mt-1"
-                                        x-text="'⭐ ' + (item.vote_average || 'N/A') + '/10'"></p>
-                                    <p class="text-gray-300 text-xs md:text-sm mt-2 hidden sm:block"
-                                        x-text="item.overview.substring(0, 100) + '...'"></p>
-                                </div>
-                            </div>
-                        </a>
-                        <button @click.stop="toggleWatchLater(item)"
-                            class="absolute top-2 right-2 p-1.5 md:p-2 bg-gray-900 bg-opacity-75 rounded-full hover:bg-purple-600 transition-all duration-300"
-                            :class="isInWatchLater(item) ? 'text-purple-400' : 'text-white'">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="currentColor"
-                                viewBox="0 0 24 24">
-                                <path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z" />
-                            </svg>
-                        </button>
-                    </div>
-                </template>
-            </div>
-
-            <!-- pagination -->
-            <div class="mt-12 flex items-center justify-center space-x-4">
-                <button @click="currentPage > 1 && changePage(currentPage - 1)"
-                    :class="currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-700'"
-                    class="bg-gray-800 px-6 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span>Previous</span>
-                </button>
-
-                <span class="text-gray-400">Page <span class="text-white font-medium"
-                        x-text="currentPage"></span></span>
-
-                <button @click="changePage(currentPage + 1)"
-                    class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg transition-all duration-300 flex items-center space-x-2">
-                    <span>Next</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- streaming services -->
@@ -1007,7 +763,7 @@
             </p>
             <p class="mt-2 text-xs">
                 <a href="mailto:umar.20221CIT0024@presidencuniversity.in"
-                    class="text-purple-400 hover:text-purple-300 transition-colors">umar.20221CIT0024@presidencyuniversity.in</a>
+                    class="text-purple-400 hover:text-purple-300 transition-colors">https://github.com/Umarahm/nova-app</a>
             </p>
         </div>
     </footer>
@@ -1166,27 +922,6 @@
         x-transition:leave-end="opacity-0 transform scale-95">
         <div class="bg-gray-900 rounded-lg w-full max-w-md p-6 modal-animation">
             <div class="text-center">
-                <!-- <div
-                    class="w-16 h-16 rounded-full bg-red-500 bg-opacity-10 mx-auto flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                </div> -->
-                <!-- <h3 class="text-xl font-bold mb-2">Clear Watch Later List?</h3>
-                <p class="text-gray-400 mb-6">This action cannot be undone. Are you sure you want to remove all items
-                    from your watch later list?</p>
-                <div class="flex space-x-3 justify-center">
-                    <button @click="showClearConfirm = false"
-                        class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors duration-300">
-                        Cancel
-                    </button>
-                    <button @click="doClearWatchLater()"
-                        class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-300">
-                        Clear All
-                    </button>
-                </div> -->
             </div>
         </div>
     </div>
@@ -1329,33 +1064,14 @@
         function app() {
             return {
                 apiKey: '1070730380f5fee0d87cf0382670b255',
-                content: [],
                 currentTab: 'shows',
                 language: localStorage.getItem('selectedLanguage') || 'ur',
                 searchQuery: '',
-                currentPage: 1,
                 showWatchLater: false,
                 watchLaterItems: [],
                 watchLaterCount: 0,
-                showModal: false,
-                selectedContent: null,
-                currentVideoUrl: '',
-                selectedSeason: 1,
-                selectedEpisode: 1,
-                seasons: [],
-                episodes: [],
-                selectedSource: localStorage.getItem('defaultSource') || 'embedsu',
-                availableSources: availableSources,
                 showClearConfirm: false,
-                genres: [],
-                selectedGenre: '',
-                minRating: '',
-                filteredContent: [],
                 mobileMenu: false,
-                sortBy: 'popularity.desc',
-                yearRange: '',
-                selectedLanguage: 'ur',
-                categoryData: [],
 
                 async init() {
                     const savedItems = localStorage.getItem('watchLater');
@@ -1364,135 +1080,22 @@
                         this.watchLaterCount = this.watchLaterItems.length;
                     }
 
-                    await this.fetchGenres();
-                    await this.fetchContent();
                     await this.fetchTop10Content();
                     await this.generateCategorySections();
 
                     this.$watch('currentTab', async () => {
-                        this.currentPage = 1;
-                        this.selectedGenre = '';
-                        this.minRating = '';
-                        this.yearRange = '';
-                        await this.fetchGenres();
-                        await this.fetchContent();
                         await this.fetchTop10Content();
                     });
 
                     this.$watch('language', () => {
-                        this.currentPage = 1;
-                        this.fetchContent();
                         this.fetchTop10Content();
                         this.updateTop10Title();
                     });
                 },
 
-                async fetchGenres() {
-                    const baseUrl = 'https://api.themoviedb.org/3';
-                    const endpoint = this.currentTab === 'movies' ? 'genre/movie/list' : 'genre/tv/list';
-                    const url = `${baseUrl}/${endpoint}?api_key=${this.apiKey}&language=${this.language}`;
-
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json();
-                        this.genres = data.genres;
-                    } catch (error) {
-                        console.error('Error fetching genres:', error);
-                    }
-                },
-
-                getGenreName(genreId) {
-                    const genre = this.genres.find(g => g.id === parseInt(genreId));
-                    return genre ? genre.name : '';
-                },
-
-                async applyFilters() {
-                    const baseUrl = 'https://api.themoviedb.org/3/discover';
-                    const endpoint = this.currentTab === 'movies' ? 'movie' : 'tv';
-
-                    let params = new URLSearchParams({
-                        api_key: this.apiKey,
-                        language: `${this.language}-${this.language.toUpperCase()}`,
-                        page: this.currentPage,
-                        sort_by: this.sortBy
-                    });
-
-                    if (this.selectedGenre) {
-                        params.append('with_genres', this.selectedGenre);
-                    }
-
-                    if (this.minRating) {
-                        params.append('vote_average.gte', this.minRating);
-                    }
-
-                    if (this.selectedLanguage) {
-                        params.append('with_original_language', this.selectedLanguage);
-                    }
-
-                    if (this.yearRange) {
-                        const [startYear, endYear] = this.yearRange.split(',');
-                        params.append('primary_release_date.gte', `${startYear}-01-01`);
-                        params.append('primary_release_date.lte', `${endYear}-12-31`);
-                    }
-
-                    const url = `${baseUrl}/${endpoint}?${params.toString()}`;
-
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json();
-                        this.content = data.results.slice(0, 12); // Limit to 12 cards
-                        this.filteredContent = this.content;
-                    } catch (error) {
-                        console.error('Error applying filters:', error);
-                    }
-                },
-
-                getLanguageName(code) {
-                    const languages = {
-                        en: 'English',
-                        fr: 'French',
-                        es: 'Spanish',
-                        de: 'German',
-                        it: 'Italian',
-                        ja: 'Japanese',
-                        ko: 'Korean',
-                        ur: 'Urdu',
-                        hi: 'Hindi',
-                    };
-                    return languages[code] || code;
-                },
-
-                getYearRangeName(range) {
-                    if (!range) return '';
-                    const [start, end] = range.split(',');
-                    const decade = Math.floor(start / 10) * 10;
-                    return `${decade}s`;
-                },
-
-                get hasActiveFilters() {
-                    return this.selectedGenre || this.minRating || this.yearRange || this.selectedLanguage;
-                },
-
-                clearAllFilters() {
-                    this.selectedGenre = '';
-                    this.minRating = '';
-                    this.yearRange = '';
-                    this.selectedLanguage = '';
-                    this.applyFilters();
-                },
-
-                async fetchContent() {
-                    const baseUrl = 'https://api.themoviedb.org/3';
-                    const endpoint = this.currentTab === 'movies' ? 'movie/popular' : 'tv/popular';
-                    const url = `${baseUrl}/${endpoint}?api_key=${this.apiKey}&language=${this.language}&page=${this.currentPage}`;
-
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json();
-                        this.content = data.results.slice(0, 12); // Limit to 12 cards
-                        this.applyFilters();
-                    } catch (error) {
-                        console.error('Error fetching content:', error);
+                redirectToSearch() {
+                    if (this.searchQuery.trim()) {
+                        window.location.href = `search.html?q=${encodeURIComponent(this.searchQuery.trim())}`;
                     }
                 },
 
@@ -1515,7 +1118,7 @@
                             itemElement.className = 'top10-item flex-shrink-0 relative';
                             itemElement.innerHTML = `
                                 <a href="watch.html?id=${item.id}&type=${this.currentTab === 'movies' ? 'movie' : 'tv'}" class="block">
-                                    <div class="relative w-40 md:w-48 aspect-[2/3] rounded-lg overflow-hidden">
+                                    <div class="relative w-40 md:w-48 aspect-[2/3] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300">
                                         <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" 
                                             alt="${item.title || item.name}" 
                                             class="w-full h-full object-cover"
@@ -1533,12 +1136,27 @@
                     }
                 },
 
-                updateTop10Title() {
-                    const languageName = this.getLanguageName(this.language);
-                    const top10Title = document.getElementById('top10Title');
-                    if (top10Title) {
-                        top10Title.textContent = `Top 10 in ${languageName} Today`;
-                    }
+                // updateTop10Title() {
+                //     const languageName = this.getLanguageName(this.language);
+                //     const top10Title = document.getElementById('top10Title');
+                //     if (top10Title) {
+                //         top10Title.textContent = `Top 10 in ${languageName} Today`;
+                //     }
+                // },
+
+                getLanguageName(code) {
+                    const languages = {
+                        en: 'English',
+                        fr: 'French',
+                        es: 'Spanish',
+                        de: 'German',
+                        it: 'Italian',
+                        ja: 'Japanese',
+                        ko: 'Korean',
+                        ru: 'Russian',
+                        hi: 'Hindi',
+                    };
+                    return languages[code] || code;
                 },
 
                 async generateCategorySections() {
@@ -1548,14 +1166,21 @@
                         { id: 35, name: 'Comedy' },
                         { id: 27, name: 'Horror' },
                         { id: 18, name: 'Drama' },
-                        { id: 10749, name: 'Romance' }
+                        { id: 12, name: 'Adventure' },
+                        { id: 14, name: 'Fantasy' },
+                        { id: 878, name: 'Science Fiction' },
+                        { id: 9648, name: 'Mystery' },
+                        { id: 10749, name: 'Romance' },
+                        { id: 10751, name: 'Family' },
+                        { id: 10752, name: 'War' },
+                        { id: 37, name: 'Western' }
                     ];
 
                     // Shuffle the categories to randomize
                     const shuffledCategories = [...categories].sort(() => 0.5 - Math.random());
 
                     // Take the first 5 categories
-                    const selectedCategories = shuffledCategories.slice(0, 5);
+                    const selectedCategories = shuffledCategories.slice(0, 7);
 
                     const categorySectionsContainer = document.getElementById('categorySections');
                     categorySectionsContainer.innerHTML = '';
@@ -1581,7 +1206,7 @@
                         const sectionElement = document.createElement('div');
                         sectionElement.className = 'category-section container mx-auto';
                         sectionElement.innerHTML = `
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-4 px-4 sm:px-6">
             <h2 class="category-title">${category.name}</h2>
             <a href="#" class="text-gray-400 hover:text-purple-400 transition-colors flex items-center">
                 View All
@@ -1630,140 +1255,6 @@
                     }
                 },
 
-                async searchContent() {
-                    if (!this.searchQuery) {
-                        await this.applyFilters();
-                        return;
-                    }
-
-                    const baseUrl = 'https://api.themoviedb.org/3';
-                    const searchQuery = this.searchQuery.trim();
-
-                    if (searchQuery.startsWith('@')) {
-                        const personName = searchQuery.substring(1);
-                        if (!personName) {
-                            await this.applyFilters();
-                            return;
-                        }
-
-                        const personUrl = `${baseUrl}/search/person?api_key=${this.apiKey}&query=${encodeURIComponent(personName)}`;
-                        try {
-                            const personResponse = await fetch(personUrl);
-                            const personData = await personResponse.json();
-                            const person = personData.results[0];
-
-                            if (person) {
-                                const creditsUrl = `${baseUrl}/person/${person.id}/combined_credits?api_key=${this.apiKey}`;
-                                const creditsResponse = await fetch(creditsUrl);
-                                const creditsData = await creditsResponse.json();
-
-                                this.content = creditsData[this.currentTab === 'movies' ? 'cast' : 'crew']
-                                    .filter(item => this.currentTab === 'movies' ? item.media_type === 'movie' : item.media_type === 'tv')
-                                    .slice(0, 12); // Limit to 12 cards
-                            } else {
-                                this.content = [];
-                            }
-                        } catch (error) {
-                            console.error('Error searching person:', error);
-                            this.content = [];
-                        }
-                    } else {
-                        const endpoint = this.currentTab === 'movies' ? 'movie' : 'tv';
-                        const url = `${baseUrl}/search/${endpoint}?api_key=${this.apiKey}&query=${encodeURIComponent(searchQuery)}&language=${this.language}-${this.language.toUpperCase()}&page=${this.currentPage}`;
-
-                        try {
-                            const response = await fetch(url);
-                            const data = await response.json();
-                            this.content = data.results.slice(0, 12); // Limit to 12 cards
-                        } catch (error) {
-                            console.error('Error searching content:', error);
-                            this.content = [];
-                        }
-                    }
-
-                    this.filteredContent = this.content.filter(item => {
-                        if (this.selectedGenre && !item.genre_ids?.includes(parseInt(this.selectedGenre))) {
-                            return false;
-                        }
-                        if (this.minRating && item.vote_average < parseFloat(this.minRating)) {
-                            return false;
-                        }
-                        if (this.selectedLanguage && item.original_language !== this.selectedLanguage) {
-                            return false;
-                        }
-                        return true;
-                    });
-                },
-
-                async openContent(item) {
-                    this.selectedContent = item;
-                    this.showModal = true;
-
-                    if (this.currentTab === 'shows') {
-                        const url = `https://api.themoviedb.org/3/tv/${item.id}?api_key=${this.apiKey}`;
-                        try {
-                            const response = await fetch(url);
-                            const data = await response.json();
-                            this.seasons = Array.from({ length: data.number_of_seasons }, (_, i) => i + 1);
-                            this.updateEpisodes();
-                        } catch (error) {
-                            console.error('Error fetching seasons:', error);
-                        }
-                    }
-                    this.updateVideoUrl();
-                },
-
-                getSourceUrl(sourceId, type, params) {
-                    const source = this.availableSources.find(s => s.id === sourceId);
-                    if (!source) return '';
-
-                    let url = source.urls[type];
-                    Object.entries(params).forEach(([key, value]) => {
-                        url = url.replace(`{${key}}`, value);
-                    });
-                    return url;
-                },
-
-                updateVideoUrl() {
-                    const source = this.availableSources.find(s => s.id === this.selectedSource);
-                    if (!source) return '';
-
-                    const params = this.currentTab === 'shows'
-                        ? { id: this.selectedContent.id, season: this.selectedSeason, episode: this.selectedEpisode }
-                        : { id: this.selectedContent.id };
-
-                    this.currentVideoUrl = this.getSourceUrl(
-                        this.selectedSource,
-                        this.currentTab === 'shows' ? 'tv' : 'movie',
-                        params
-                    );
-                },
-
-                async updateEpisodes() {
-                    const url = `https://api.themoviedb.org/3/tv/${this.selectedContent.id}/season/${this.selectedSeason}?api_key=${this.apiKey}`;
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json();
-                        this.episodes = Array.from({ length: data.episodes.length }, (_, i) => i + 1);
-                        this.selectedEpisode = 1;
-                    } catch (error) {
-                        console.error('Error fetching episodes:', error);
-                    }
-                },
-
-                loadEpisode() {
-                    this.updateVideoUrl();
-                },
-
-                async changePage(page) {
-                    this.currentPage = page;
-                    if (this.searchQuery) {
-                        await this.searchContent();
-                    } else {
-                        await this.fetchContent();
-                    }
-                },
-
                 toggleWatchLater(item) {
                     const index = this.watchLaterItems.findIndex(i => i.id === item.id);
                     if (index === -1) {
@@ -1793,17 +1284,10 @@
                     this.showClearConfirm = false;
                 },
 
-                pickRandom() {
-                    const randomItem = this.filteredContent[Math.floor(Math.random() * this.filteredContent.length)];
-                    if (randomItem) {
-                        window.location.href = `watch.html?id=${randomItem.id}&type=${this.currentTab === 'movies' ? 'movie' : 'tv'}`;
-                    }
-                },
-
                 changeLanguage(newLanguage) {
                     this.language = newLanguage;
                     localStorage.setItem('selectedLanguage', newLanguage);
-                    this.fetchContent();
+                    this.fetchTop10Content();
                 }
             }
         }
@@ -2436,6 +1920,23 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const animation = lottie.loadAnimation({
+                container: document.getElementById('lottie-animation'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'Animation - 1748423844454.json' // Ensure this path matches your actual file location
+            });
+
+            // Automatically hide loader after a delay
+            setTimeout(() => {
+                document.getElementById('lottie-loader').style.display = 'none';
+            }, 2000); // Adjust time as needed
+        });
+    </script>
+
 </body>
 
 </html>
