@@ -211,6 +211,68 @@
             right: 0;
         }
 
+        /* Carousel component animations */
+        @keyframes carouselSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes carouselFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply animations to carousel elements */
+        .carousel-animate-slide {
+            animation: carouselSlideIn 0.8s ease-out;
+        }
+
+        .carousel-animate-fade {
+            animation: carouselFadeIn 0.6s ease-out;
+        }
+
+        /* Mobile button optimizations */
+        @media (max-width: 768px) {
+            .carousel-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+                width: 100%;
+                align-items: center;
+            }
+
+            .carousel-buttons button {
+                padding: 0.75rem 1.5rem !important;
+                font-size: 0.875rem !important;
+                width: auto;
+                min-width: 140px;
+                max-width: 200px;
+            }
+
+            .carousel-meta {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            .carousel-meta span {
+                font-size: 0.875rem !important;
+            }
+        }
+
         .overflow-container {
             position: relative;
             overflow: hidden;
@@ -771,6 +833,31 @@
         .stagger-animation {
             animation-delay: calc(var(--stagger) * 0.1s);
         }
+
+        /* Hide navigation buttons on mobile and tablet devices */
+        @media (max-width: 1024px) {
+            .section-nav-button {
+                display: none !important;
+            }
+
+            /* Also hide the genre scroll buttons on mobile/tablet */
+            #genreScrollLeft,
+            #genreScrollRight {
+                display: none !important;
+            }
+        }
+
+        /* Ensure buttons are visible on desktop/laptop */
+        @media (min-width: 1025px) {
+            .section-nav-button {
+                display: flex !important;
+            }
+
+            #genreScrollLeft,
+            #genreScrollRight {
+                display: flex !important;
+            }
+        }
     </style>
 </head>
 
@@ -911,32 +998,28 @@
                         <!-- Left Content -->
                         <div class="flex flex-col justify-center px-6 lg:px-12 space-y-6 animate-slide-in-left">
                             <div class="space-y-4">
-                                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight"
+                                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight carousel-animate-slide"
                                     id="carouselTitle">
                                     Loading...
                                 </h1>
-                                <div class="flex items-center space-x-4 text-gray-300">
+                                <div class="flex items-center space-x-4 text-gray-300 carousel-animate-fade carousel-meta"
+                                    style="animation-delay: 0.2s;">
                                     <span class="bg-purple-600 text-white px-2 py-1 rounded text-sm font-medium"
                                         id="carouselType">TV</span>
                                     <span id="carouselYear">2024</span>
                                     <div class="flex items-center space-x-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400"
                                             viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 
-                                            <path d=" M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0
-                                                00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364
-                                                1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175
-                                                0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0
-                                                00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0
-                                                00.951-.69l1.07-3.292z" />
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                         <span id="carouselRating">8.5</span>
                                     </div>
                                 </div>
-
                             </div>
 
-                            <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex flex-col sm:flex-row gap-4 carousel-buttons carousel-animate-fade"
+                                style="animation-delay: 0.4s;">
                                 <button
                                     class="brand-gradient text-white px-8 py-3 rounded-full flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 font-medium btn-animated"
                                     id="carouselWatchButton">
@@ -1180,8 +1263,9 @@
                 Made with vanilla JS, Tailwind CSS, and TMDB API. <br>
             </p>
             <p class="mt-2 text-xs">
-                <a href="mailto:umar.20221CIT0024@presidencuniversity.in"
-                    class="text-purple-400 hover:text-purple-300 transition-colors">https://github.com/Umarahm/nova-app</a>
+            <p class="text-purple-400 hover:text-purple-300 transition-colors">
+                Developed and maintained by Umar Ahmed
+            </p>
             </p>
         </div>
     </footer>
@@ -1924,32 +2008,43 @@
                         bgImage.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${item.backdrop_path || item.poster_path})`;
                     }
 
-                    // Update content
+                    // Update content with animations
                     const title = document.getElementById('carouselTitle');
                     const type = document.getElementById('carouselType');
                     const year = document.getElementById('carouselYear');
                     const rating = document.getElementById('carouselRating');
-                    const description = document.getElementById('carouselDescription');
                     const poster = document.getElementById('carouselPoster');
                     const watchBtn = document.getElementById('carouselWatchButton');
 
                     if (title) {
                         title.textContent = item.title || item.name;
-                        title.classList.remove('carousel-animate-in');
+                        title.classList.remove('carousel-animate-slide');
                         void title.offsetWidth;
-                        title.classList.add('carousel-animate-in');
+                        title.classList.add('carousel-animate-slide');
                     }
-                    if (type) type.textContent = item.type === 'movie' ? 'MOVIE' : 'TV SERIES';
+
+                    if (type) {
+                        type.textContent = item.type === 'movie' ? 'MOVIE' : 'TV SERIES';
+                        type.parentElement.classList.remove('carousel-animate-fade');
+                        void type.parentElement.offsetWidth;
+                        type.parentElement.classList.add('carousel-animate-fade');
+                    }
+
                     if (year) year.textContent = new Date(item.release_date || item.first_air_date || '').getFullYear() || 'N/A';
                     if (rating) rating.textContent = item.vote_average ? item.vote_average.toFixed(1) : 'N/A';
-                    if (description) description.textContent = item.overview || 'No description available.';
+
                     if (poster) {
                         poster.src = `https://image.tmdb.org/t/p/w500${item.poster_path}`;
                         poster.classList.remove('carousel-animate-in');
                         void poster.offsetWidth;
                         poster.classList.add('carousel-animate-in');
-                    };
+                    }
+
                     if (watchBtn) {
+                        watchBtn.parentElement.classList.remove('carousel-animate-fade');
+                        void watchBtn.parentElement.offsetWidth;
+                        watchBtn.parentElement.classList.add('carousel-animate-fade');
+
                         watchBtn.onclick = () => {
                             window.location.href = `watch.html?id=${item.id}&type=${item.type}`;
                         };
