@@ -19,6 +19,8 @@
     <link rel="icon" type="image/x-icon" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="sources.js"></script>
@@ -35,6 +37,30 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
+        /* Logo styling to match animerealms theme */
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.3));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8));
+            }
+        }
+
+        /* Enhanced search container */
         .search-container {
             position: relative;
             width: 100%;
@@ -65,11 +91,38 @@
             position: relative;
             z-index: 1;
             transition: all 0.3s ease;
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
+        .search-input:focus {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            transform: scale(1.02);
+            background: rgba(15, 15, 15, 0.95);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        /* Enhanced card styling to match animerealms */
         .card-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            background: linear-gradient(145deg, rgba(15, 15, 15, 0.9), rgba(25, 25, 25, 0.8));
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg,
+                    rgba(168, 85, 247, 0.1) 0%,
+                    transparent 50%,
+                    rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
         }
 
         .card-hover::after {
@@ -88,7 +141,13 @@
 
         .card-hover:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            box-shadow:
+                0 20px 30px -10px rgba(168, 85, 247, 0.3),
+                0 0 0 1px rgba(168, 85, 247, 0.2);
+        }
+
+        .card-hover:hover::before {
+            opacity: 1;
         }
 
         .card-hover:hover::after {
@@ -110,17 +169,22 @@
                     rgba(0, 0, 0, 0.9) 0%,
                     rgba(0, 0, 0, 0.7) 50%,
                     rgba(0, 0, 0, 0.3) 100%);
+            z-index: 2;
+            position: relative;
         }
 
         .card-hover:hover img {
-            filter: blur(2px) brightness(0.9);
+            filter: blur(1px) brightness(0.8);
             transition: all 0.4s ease;
         }
 
         .card-hover img {
             transition: all 0.4s ease;
+            z-index: 0;
+            position: relative;
         }
 
+        /* Navigation styling */
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
@@ -134,28 +198,119 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background: linear-gradient(to right, #a78bfa, #4c1d95);
+            background: linear-gradient(to right, #a855f7, #7c3aed);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
 
         .nav-link:hover {
-            color: #a78bfa;
+            color: #a855f7;
+            transform: translateY(-2px);
         }
 
         .nav-link:hover::after {
             width: 100%;
         }
 
+        /* Enhanced glass effect for navbar */
         .glass-effect {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            animation: slideInDown 0.6s ease-out;
         }
 
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        /* Button enhancements */
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-animated:hover::before {
+            left: 100%;
+        }
+
+        /* Modal styling */
         .modal-animation {
             animation: modalFade 0.3s ease-out;
+            background: linear-gradient(145deg, rgba(15, 15, 15, 0.95), rgba(25, 25, 25, 0.9));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            backdrop-filter: blur(20px);
         }
 
         @keyframes modalFade {
@@ -170,16 +325,7 @@
             }
         }
 
-        .search-input:focus {
-            box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
-            transform: scale(1.02);
-            background: rgba(31, 41, 55, 0.9);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* Settings icon animation */
         .settings-icon {
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -188,13 +334,7 @@
             transform: rotate(180deg);
         }
 
-        .empty-state {
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
+        /* Loading spinner */
         .loading-spinner {
             animation: spin 1s linear infinite;
         }
@@ -208,11 +348,57 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Floating animation for scroll button */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating-button {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Enhanced filter styling */
+        select {
+            background: linear-gradient(145deg, rgba(15, 15, 15, 0.9), rgba(25, 25, 25, 0.8));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        select:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(30, 30, 30, 0.8));
+        }
+
+        select:focus {
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .empty-state {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
-<body class="bg-gray-900 text-white min-h-screen" x-data="searchApp()"
-    @keydown.meta.k.prevent="$refs.searchInput.focus()" @keydown.ctrl.k.prevent="$refs.searchInput.focus()">
+<body class="bg-black text-white min-h-screen" x-data="searchApp()" @keydown.meta.k.prevent="$refs.searchInput.focus()"
+    @keydown.ctrl.k.prevent="$refs.searchInput.focus()">
     <div x-show="localStorage.getItem('showParticles') !== 'false'" id="particles-js"
         class="fixed inset-0 pointer-events-none z-0"></div>
 
@@ -227,7 +413,7 @@
                         </a>
                         <a href="index.html">
                             <span
-                                class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">SkyyPlay</span>
+                                class="logo-text text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">SkyyPlay</span>
                         </a>
                     </div>
                     <div class="hidden md:flex space-x-6">
@@ -305,10 +491,10 @@
     </nav>
 
     <!-- Search Section -->
-    <div class="pt-24 pb-8 px-6">
+    <div class="pt-24 pb-8 px-6 animate-fade-in-up">
         <div class="container mx-auto">
             <!-- Search Header -->
-            <div class="text-center mb-8">
+            <div class="text-center mb-8 animate-slide-in-left">
                 <h1
                     class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800 mb-4">
                     <span x-text="currentTab === 'movies' ? 'Search Movies' : 'Search TV Shows'"></span>
@@ -318,7 +504,7 @@
             </div>
 
             <!-- Search Input -->
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center mb-6 animate-slide-in-right">
                 <div class="search-container w-full max-w-3xl">
                     <input type="text" x-ref="searchInput" x-model="searchQuery" @input="searchContent()"
                         @keyup.enter="searchContent()" placeholder="Search for movies, TV shows, or people..."
@@ -1249,6 +1435,28 @@
         });
     </script>
 
+    <script>
+        // Add stagger animation to cards when they load
+        document.addEventListener('DOMContentLoaded', function () {
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.type === 'childList') {
+                        const cards = document.querySelectorAll('.card-hover');
+                        cards.forEach((card, index) => {
+                            card.style.setProperty('--stagger', index);
+                            card.classList.add('stagger-animation', 'animate-fade-in-up');
+                        });
+                    }
+                });
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    </script>
+
     <button @click="window.scrollTo({top: 0})" @scroll.window="showScrollTop = window.pageYOffset > 500"
         x-data="{ showScrollTop: false }" x-show="showScrollTop" x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 transform translate-y-10"
@@ -1256,7 +1464,7 @@
         x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="opacity-100 transform translate-y-0"
         x-transition:leave-end="opacity-0 transform translate-y-10"
-        class="fixed bottom-8 right-8 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 z-50">
+        class="fixed bottom-8 right-8 bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-full p-4 shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 z-50 floating-button">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
         </svg>
